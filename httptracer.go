@@ -37,8 +37,10 @@ func Tracer(cfg Config) func(next http.Handler) http.Handler {
 			defer span.Finish()
 
 			httplog.LogEntrySetFields(r.Context(), map[string]interface{}{
-				"dd.trace_id": fmt.Sprintf("%v", span.Context().SpanID()),
-				"dd.span_id":  fmt.Sprintf("%v", span.Context().TraceID()),
+				"dd": map[string]interface{}{
+					"trace_id": fmt.Sprintf("%v", span.Context().SpanID()),
+					"span_id":  fmt.Sprintf("%v", span.Context().TraceID()),
+				},
 			})
 
 			ww := middleware.NewWrapResponseWriter(w, r.ProtoMajor)
