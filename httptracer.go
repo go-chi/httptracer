@@ -63,7 +63,7 @@ func Tracer(cfg Config) func(next http.Handler) http.Handler {
 
 			if status >= 500 && status < 600 {
 				// mark 5xx server error
-				span.SetTag(ext.Error, fmt.Errorf("%d: %s", status, http.StatusText(status)))
+				span.SetTag(ext.Error, fmt.Sprintf("%d: %s", status, http.StatusText(status)))
 			}
 		})
 	}
